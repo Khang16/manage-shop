@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, Upd
 @Entity()
 export class Permission {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   name: string;
