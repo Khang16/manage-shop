@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity()
+@Entity('permissions')
 export class Permission {
   @PrimaryGeneratedColumn()
   id: number;
@@ -12,17 +12,17 @@ export class Permission {
   description: string;
 
   @Column({type: 'text'})
-  detail: string;
+  resourceActions: string;
   
   @CreateDateColumn()
-  creat_at: Date;
+  createdAt: Date;
   
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
   
-  @Column()
-  created_by: string;
+  @Column({nullable: true})
+  createdBy: string;
   
-  @Column()
-  update_by: string;
+  @Column({nullable: true})
+  updateBy: string;
 }

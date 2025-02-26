@@ -29,15 +29,17 @@ export class CreateUserDto {
   email: string;
 
   @IsPhoneNumber('VN', { message: 'Số điện thoại không hợp lệ' })
-  phone: string;
+  phone?: string;
 
   @IsNotEmpty({ message: 'Địa chỉ không được để trống' })
   @MinLength(10, { message: 'Địa chỉ phải có ít nhất 10 ký tự' })
-  address: string;
+  address?: string;
 
   @IsEnum(UserRole, { message: 'Vai trò không hợp lệ' })
   @IsNotEmpty({ message: 'Vai trò không được để trống' })
-  role: UserRole;
+  role?: UserRole;
 
+  @IsNotEmpty({ message: 'Phân quyền không được để trống' })
+  permissionId?: number;
 
 }

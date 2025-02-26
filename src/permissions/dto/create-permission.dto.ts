@@ -1,4 +1,6 @@
-import { IsNotEmpty, MaxLength } from "class-validator";
+import { IsNotEmpty, MaxLength, ValidateNested } from "class-validator";
+import { ResourceActionDto } from "./resource-action.dto";
+import { Type } from "class-transformer";
 
 export class CreatePermissionDto{
   @IsNotEmpty({message: "Tên của permission không được để trống"})
@@ -9,5 +11,7 @@ export class CreatePermissionDto{
   description: string;
 
   @IsNotEmpty({message: "Chi tiết không được để trống"})
-  detail: string;
+  @ValidateNested()
+  @Type(()=> ResourceActionDto)
+  resourceActions: ResourceActionDto;
 }

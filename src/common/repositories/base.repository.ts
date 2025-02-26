@@ -2,6 +2,8 @@ import { DataSource, DeepPartial, EntityTarget, FindOneOptions, Repository } fro
 import { responsePaginate } from 'src/common/helper';
 
 export class BaseRepository<T> {
+  //<T> là generic type, cho phép class làm việc với bất kỳ class nào 
+  //Constructor nhận vào entity và dataSource để khởi tạo repository
   protected repository: Repository<T>;
 
   constructor(entity: EntityTarget<T>, private dataSource: DataSource) {
@@ -16,7 +18,7 @@ export class BaseRepository<T> {
   async show(options: FindOneOptions<T>): Promise<T | null> {
     return this.repository.findOne(options);
   }
-
+  
   async update(id: string | number, data: Partial<T>): Promise<T> {
     await this.repository.update(id, data as any);
     return this.show({ where: { id: id as any } } as FindOneOptions<T>) as Promise<T>;

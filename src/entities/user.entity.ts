@@ -2,7 +2,7 @@ import { UserRole } from 'src/users/dto/create-user.dto';
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import { Permission } from './permission.entity';
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -16,29 +16,29 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  address: string;
+  @Column({nullable: true})
+  address?: string;
 
   @Column('int', {
-    default: 4  // 4 = CUSTOMER
+    default: 4,  // 4 = CUSTOMER
   })
-  role: number;
+  role?: number;
 
-  // @OneToOne(() => Permission)
-  // @JoinColumn({name: 'permissionId'})
-  // permissionId: Permission;
-  @Column()
-  permissionId: number
+  @ManyToOne(() => Permission)
+  @JoinColumn({ name: 'permissionId' })
+  permission?: Permission;
+  // @Column()
+  // permissionId: number
 
   @CreateDateColumn()
-  creat_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 
-  @Column()
-  created_by: string;
+  @Column({nullable: true})
+  createdBy: string;
 
-  @Column()
-  update_by: string;
+  @Column({nullable: true})
+  updatedBy: string;
 }

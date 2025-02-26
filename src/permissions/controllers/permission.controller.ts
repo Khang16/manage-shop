@@ -1,16 +1,22 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, UseFilters } from "@nestjs/common";
 import { AllExceptionsFilter } from "src/common/helper";
 import { Permission } from "src/entities/permission.entity";
-import { CreatePermissionDto } from "./dto/create-permission.dto";
-import { PermissionService } from "./permission.service";
-import { UpdatedPermissionDto } from "./dto/update-permission.dto";
+import { PermissionService } from "../permission.service";
+import { CreatePermissionDto } from "../dto/create-permission.dto";
+import { UpdatedPermissionDto } from "../dto/update-permission.dto";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
+
 
 @Controller('api/v1/permissions')
+@ApiTags('permissions')
 @UseFilters(AllExceptionsFilter)
 export class PermissionController{
   constructor(private permissionService: PermissionService){}
 
   @Post()
+  @ApiBody({
+    type: CreatePermissionDto
+  })
   async create(@Body() createPermissionDto: CreatePermissionDto): Promise<Permission>{
     return this.permissionService.createPermission(createPermissionDto)
   }
@@ -27,12 +33,16 @@ export class PermissionController{
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() updatedPermissionDto: UpdatedPermissionDto){
-    return this.permissionService.updatePermission(id, updatedPermissionDto)
+  async update(@Param('id') id: number, @Body() updatedPermissionDto: UpdatedPermissionDto): Promise<Permission>{
+    const updatedData = {
+      ...updatedPermissionDto,
+      resourceActions: JSON.stringify(updatedPermissionDto.resourceActions)
+    };
+    return this.permissionService.updatePermission(id, updatedData)
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number): Promise<{message: string}>{
+  async delete(@Param('id') id: string): Promise<{message: string}>{
      const permission = await this.permissionService.showPermission(id);
         if (!permission) {
           throw new NotFoundException('User not found');

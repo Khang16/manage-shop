@@ -1,5 +1,5 @@
-import { BaseRepository } from "src/repositories/base.repository";
-import { User } from "src/entities/users.entity";
+import { BaseRepository } from "src/common/repositories/base.repository";
+import { User } from "src/entities/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DataSource } from "typeorm";
 
